@@ -28,7 +28,7 @@ const testimonials = [
 
 export function Testimonials() {
   return (
-    <Container>
+    <Container id="testimonials">
       <SectionHeader
         title="Trusted by Teams and Professionals"
         description="See what our users have to say about Websesh"

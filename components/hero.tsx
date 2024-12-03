@@ -1,10 +1,14 @@
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { ClientWrapper } from "@/components/ui/client-wrapper";
+import { useRouter } from "next/navigation";
 
 export function Hero() {
+  const router = useRouter();
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
+    <section id="home" className="relative py-24 md:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
       <div className="container relative">
         <div className="flex flex-col items-center text-center gap-8 animate-slide-up">
@@ -30,8 +34,12 @@ export function Hero() {
           </p>
           <ClientWrapper>
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
-              <Button size="lg" className="shadow-lg shadow-primary/25 hover:shadow-primary/35 transition-shadow">
-                Sign Up for Free
+              <Button 
+                size="lg" 
+                className="shadow-lg shadow-primary/25 hover:shadow-primary/35 transition-shadow"
+                onClick={() => router.push("/auth/signin")}
+              >
+                Get Started
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
               <Button variant="outline" size="lg" className="group">

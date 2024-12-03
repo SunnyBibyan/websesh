@@ -36,7 +36,7 @@ export function FAQ() {
   });
 
   return (
-    <Container>
+    <Container id="faq">
       <SectionHeader
         title="Frequently Asked Questions"
         description="Find answers to common questions about Websesh"

@@ -6,7 +6,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 
 export function Demo() {
   return (
-    <Container>
+    <Container id="demo">
       <SectionHeader
         title="See Websesh in Action"
         description="Experience how Websesh transforms your meeting workflow"
