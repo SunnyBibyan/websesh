@@ -1,10 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 export function useSectionObserver() {
-  const [activeSection, setActiveSection] = useState<string>('home');
-
   useEffect(() => {
     const sections = ['home', 'features', 'demo', 'testimonials', 'pricing', 'faq'];
     const observers: IntersectionObserver[] = [];
@@ -34,9 +32,6 @@ export function useSectionObserver() {
         (entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-              // Update both URL and active section state
-              setActiveSection(sectionId);
-              
               // If it's the home section and it's intersecting, remove the hash
               if (sectionId === 'home') {
                 updateUrl(null);
@@ -47,7 +42,7 @@ export function useSectionObserver() {
           });
         },
         {
-          threshold: [0.5],
+          threshold: 0.5,
           rootMargin: '-50px 0px -50px 0px'
         }
       );
@@ -56,15 +51,12 @@ export function useSectionObserver() {
       observers.push(observer);
     });
 
-    // Handle initial URL hash and set initial active section
+    // Handle initial URL hash
     const handleInitialHash = () => {
       const hash = window.location.hash.slice(1);
       if (hash) {
         const element = document.getElementById(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-          setActiveSection(hash);
-        }
+        element?.scrollIntoView({ behavior: 'smooth' });
       }
     };
 
@@ -73,6 +65,4 @@ export function useSectionObserver() {
 
     return cleanup;
   }, []);
-
-  return activeSection;
 }
