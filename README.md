@@ -9,6 +9,11 @@
 Websesh is the ultimate meeting management platform designed to enhance productivity, streamline collaboration, and empower users with AI-powered features. With seamless integrations to Google Meet, Zoom, and Microsoft Teams, Websesh ensures your meetings are smart, connected, and effortless.
 
 ---
+## **Tech Stack**
+
+
+
+
 
 ## **Branding Keywords**  
 When presenting Websesh, keep these keywords in mind to reflect its unique value:  
