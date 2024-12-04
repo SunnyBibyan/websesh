@@ -1,13 +1,13 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { Providers } from './providers';
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Providers } from "./providers";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Websesh - Simplify Your Meetings',
-  description: 'AI-powered meeting tools for effortless collaboration',
+  title: "Websesh - Simplify Your Meetings",
+  description: "AI-powered meeting tools for effortless collaboration",
 };
 
 export default function RootLayout({

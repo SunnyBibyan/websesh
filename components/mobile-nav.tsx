@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { ModeToggle } from "@/components/mode-toggle";
 
 interface MobileNavProps {
   activeSection?: string;
@@ -72,6 +73,9 @@ export function MobileNav({ activeSection }: MobileNavProps) {
             );
           })}
           <div className="pt-4 mt-4 border-t">
+            <div className="mb-4">
+              <ModeToggle />
+            </div>
             {session ? (
               <>
                 <span className="text-sm text-muted-foreground block mb-4">

@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useActiveSection } from "@/hooks/use-active-section";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -166,6 +167,7 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center space-x-4">
+            <ModeToggle />
             {session ? (
               <>
                 <span className="text-sm text-muted-foreground">
