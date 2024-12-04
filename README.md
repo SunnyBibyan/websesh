@@ -9,11 +9,64 @@
 Websesh is the ultimate meeting management platform designed to enhance productivity, streamline collaboration, and empower users with AI-powered features. With seamless integrations to Google Meet, Zoom, and Microsoft Teams, Websesh ensures your meetings are smart, connected, and effortless.
 
 ---
-## **Tech Stack**
 
+## **Tech Stack**  
 
+### **Frontend**
+- Next.js 13+ with App Router
+- TypeScript
+- Tailwind CSS
+- Radix UI Components
+- Shadcn UI
+- React Hook Form
+- Date-fns for date manipulation
 
+### **Authentication**
+- NextAuth.js with Google OAuth 2.0
 
+### **Development Tools**
+- ESLint for code linting
+- PostCSS for CSS processing
+- Class Variance Authority for component styling
+- Clsx for conditional class names
+
+---
+
+## **Installation**
+
+1. **Clone the Repository**
+   ```bash
+   git clone [repository-url]
+   cd websesh
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up Environment Variables**
+   Create a `.env` file in the root directory with the following variables:
+   ```env
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your_nextauth_secret
+   ```
+
+4. **Run Development Server**
+   ```bash
+   npm run dev
+   ```
+   The application will be available at `http://localhost:3000`
+
+5. **Build for Production**
+   ```bash
+   npm run build
+   npm start
+   ```
+
+---
 
 ## **Branding Keywords**  
 When presenting Websesh, keep these keywords in mind to reflect its unique value:  
@@ -97,4 +150,3 @@ Use the tagline in the app's onboarding flow to introduce new users to the platf
 ## **Get Started with Websesh**  
 Visit our platform today and revolutionize the way you manage meetings!  
 Simplify Your Meetings, Amplify Your Productivity.  
-
