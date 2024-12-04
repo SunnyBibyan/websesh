@@ -4,33 +4,41 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
-  const isAuthenticated = !!token;
+  const { pathname } = request.nextUrl;
 
-  // Paths that require authentication
-  const protectedPaths = ["/dashboard"];
-  const isProtectedPath = protectedPaths.some((path) => 
-    request.nextUrl.pathname.startsWith(path)
-  );
+  // Public paths that don't require authentication
+  const publicPaths = ["/auth/signin", "/auth/signup", "/auth/error"];
+  const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
 
-  // Paths that should not be accessible when authenticated
-  const authPaths = ["/auth/signin"];
-  const isAuthPath = authPaths.some((path) => 
-    request.nextUrl.pathname.startsWith(path)
-  );
+  // Protected paths that require authentication
+  const protectedPaths = ["/dashboard", "/meetings", "/analytics", "/recordings"];
+  const isProtectedPath = protectedPaths.some(path => pathname.startsWith(path));
 
-  // Check if we're on the home page
-  const isHomePage = request.nextUrl.pathname === "/";
-
-  // Redirect authenticated users away from auth pages and home page
-  if (isAuthenticated && (isAuthPath || isHomePage)) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  // Handle authentication flow
+  if (isPublicPath) {
+    // If user is authenticated and tries to access public paths, redirect to dashboard
+    if (token) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+    return NextResponse.next();
   }
 
-  // Redirect unauthenticated users to signin page
-  if (!isAuthenticated && isProtectedPath) {
-    const signInUrl = new URL("/auth/signin", request.url);
-    signInUrl.searchParams.set("callbackUrl", request.url);
-    return NextResponse.redirect(signInUrl);
+  if (isProtectedPath) {
+    // If user is not authenticated and tries to access protected paths, redirect to signin
+    if (!token) {
+      const signInUrl = new URL("/auth/signin", request.url);
+      signInUrl.searchParams.set("callbackUrl", pathname);
+      return NextResponse.redirect(signInUrl);
+    }
+    return NextResponse.next();
+  }
+
+  // Handle root path
+  if (pathname === "/") {
+    if (token) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+    return NextResponse.next();
   }
 
   return NextResponse.next();
@@ -38,5 +46,14 @@ export async function middleware(request: NextRequest) {
 
 // Configure paths that should be protected by middleware
 export const config = {
-  matcher: ["/", "/dashboard/:path*", "/auth/signin"]
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api/auth (auth API routes)
+     * - _next (Next.js internals)
+     * - static (static files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api/auth|_next|static|favicon.ico).*)",
+  ],
 };

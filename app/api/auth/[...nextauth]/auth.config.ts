@@ -31,14 +31,36 @@ export const authOptions: AuthOptions = {
   ],
   pages: {
     signIn: "/auth/signin",
+    error: "/auth/error",
+  },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
-    async jwt({ token, user }) {
-      return { ...token, ...user };
+    async jwt({ token, user, account }) {
+      if (account && user) {
+        return {
+          ...token,
+          ...user,
+          accessToken: account.access_token,
+        };
+      }
+      return token;
     },
     async session({ session, token }) {
-      session.user = token as any;
+      session.user = {
+        ...session.user,
+        ...token,
+      };
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     },
   },
 };

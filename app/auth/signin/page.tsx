@@ -26,15 +26,28 @@ export default function SignIn() {
         email,
         password,
         redirect: false,
+        callbackUrl: "/dashboard",
       });
 
-      if (result?.error) {
-        setError("Invalid email or password");
+      if (!result) {
+        throw new Error("Something went wrong");
+      }
+
+      if (result.error) {
+        setError(result.error === "CredentialsSignin" 
+          ? "Invalid email or password"
+          : "An error occurred. Please try again."
+        );
         return;
       }
 
-      router.push("/dashboard");
+      // Get the callback URL from the query parameters or use default
+      const searchParams = new URLSearchParams(window.location.search);
+      const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+      
+      router.push(callbackUrl);
     } catch (error) {
+      console.error("Sign in error:", error);
       setError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
@@ -44,9 +57,18 @@ export default function SignIn() {
   const handleGoogleSignIn = async () => {
     try {
       setIsLoading(true);
-      await signIn("google", { callbackUrl: "/dashboard" });
+      // Get the callback URL from the query parameters or use default
+      const searchParams = new URLSearchParams(window.location.search);
+      const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+      
+      await signIn("google", { 
+        callbackUrl,
+        redirect: true,
+      });
     } catch (error) {
       console.error("Error signing in with Google:", error);
+      setError("Failed to sign in with Google. Please try again.");
+      setIsLoading(false);
     }
   };
 
